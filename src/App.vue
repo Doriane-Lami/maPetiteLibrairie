@@ -25,7 +25,7 @@ a {
   color: rgb(171, 39, 79);
   text-align: center;
   width: 100%;
-  font-size: 30px;
+  font-size: 40px;
 }
 
 body {
@@ -60,8 +60,8 @@ body {
 }
 
 #bandeau li:hover {
-  color: rgb(255, 121, 0);
-  border-bottom: 2px solid rgb(255, 121, 0);
+  color: rgb(171, 39, 79);
+  border-bottom: 2px solid rgb(171, 39, 79);
 }
 
 nav #bandeau::after {
@@ -81,7 +81,8 @@ nav ul li:hover .sous {
   z-index: 1000;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.9);
-  padding: 0; /* les "sous cases" sont de la même taille que les "cases titre" */
+  margin-top: 15px;
+  padding: 0px;
 }
 
 .sous li {
@@ -89,17 +90,23 @@ nav ul li:hover .sous {
   float: none;
 }
 
-.sous li {
+#bandeau li .sous #suppr,
+#bandeau li .sous #ajout,
+#bandeau li .sous #plus,
+#bandeau li .sous #moins {
   font-weight: normal;
   text-transform: capitalize;
   text-align: center;
   border-bottom: none;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 10px 0px;
 }
 
-.ss_cat:hover {
+#bandeau li .sous #suppr:hover,
+#bandeau li .sous #ajout:hover,
+#bandeau li .sous #moins:hover,
+#bandeau li .sous #plus:hover {
   background-color: white;
-  color: rgb(255, 121, 0);
+  color: rgb(171, 39, 79);
+  font-weight: bolder;
 }
 </style>
