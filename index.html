@@ -6,20 +6,33 @@
     <link
       rel="stylesheet"
       media="screen"
-      href="./src/asserts/base.css"
+      href=".src/asserts/base.css"
       type="text/css"
     />
     <title>Dodo's Library</title>
   </head>
   <body>
-    <noscript>
-      <strong
-        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
-        properly without JavaScript enabled. Please enable it to
-        continue.</strong
-      >
-    </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <script type="module" src="/src/main.js"></script>
+    <h1 id="brand">Dodo's Library</h1>
+      <header>
+			  <nav>
+          <ul id="bandeau">
+            <li>Nos livres</li>
+            <li>Modifier notre collection
+              <ul class="sous">
+                <li classe="ss_cat">Ajouter un livre</li>
+                <li classe="ss_cat">Supprimer un livre</li>
+              </ul>
+            </li>
+            <li>Notre stock
+              <ul class="sous">
+                <li classe="ss_cat">Arrivage</li>
+                <li classe="ss_cat">Vente</li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+		</header>
   </body>
 </html>
