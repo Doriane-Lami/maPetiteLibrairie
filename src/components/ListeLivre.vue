@@ -1,33 +1,29 @@
 <script setup>
+// AFFICHER LE CONTENU DE LA LIBRAIRIE
+
 document.getElementById("livres").addEventListener("click", listeLivres);
 
-// ====== la fonction qui récupère les films et les affiche
+// la fonction récupère les titres des livres et les affiche
 function listeLivres() {
-  console.log("coucou");
-  // -- url de l'entrée (la route) de l'API qui permet de récupérer les films
+  // url de l'API qui permet de récupérer les livres
   const url =
     "https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
-  // -- option pour faire la req AJAX -> ici req GET
-  let fetchOptions = { method: "GET" };
-  // -- faire la req AJAX vers le serveur pour récuperer les films
-  // -- req HTTP vers le serveur et attente (en asynchrone) de la réponse
+  let fetchOptions = { method: "GET" }; //On utilise GET pour collecter des données de l'API
   fetch(url, fetchOptions)
     .then((response) => {
-      console.log("test");
-      // -- réponse au sens du protocole HTTP
-      return response.json(); // -- extraire les données au format JSON
+      console.log("test1");
+      return response.json(); // données format JSON
     })
     .then((dataJSON) => {
-      // dataJSON = les données renvoyées au format JSON
-      console.log("test");
-      let livres = dataJSON.results; // les films sont le tableau "results"
+      console.log("test2");
+      let livres = dataJSON; // les livres ne sont dans aucune sous catégorie de l'API
       let resHTML = ""; // variable pour contenir le html généré
-      // boucle sur le tableau des films
       for (let l of livres) {
+        // boucle sur le tableau des livres
         resHTML = resHTML + "<li>" + l.titre + "</li>";
       }
-      // insérer le HTML dans la liste <ul></ul> du fichier index.html
-      document.getElementById("liste").innerHTML = resHTML;
+      // insérer le HTML dans la liste "les_livres" <ul></ul> indiquée dans le template
+      document.getElementById("les_livres").innerHTML = resHTML;
     })
     .catch((error) => {
       // gestion des erreurs
@@ -36,6 +32,23 @@ function listeLivres() {
 }
 </script>
 
-<template></template>
+<template>
+  <ul id="les_livres"></ul>
+  <img
+    id="etagere_livres"
+    src="../assets/étagères.png"
+    alt="illustration d'un mur d'étagères remplies de livres"
+  />
+</template>
 
-<style></style>
+<style>
+#les_livres li {
+  list-style: none;
+}
+
+img {
+  bottom: Opx;
+  width: 100%;
+  height: auto;
+}
+</style>
