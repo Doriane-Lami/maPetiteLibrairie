@@ -26,7 +26,6 @@ function listeLivres() {
       document.getElementById("les_livres").innerHTML = resHTML;
     })
     .catch((error) => {
-      // gestion des erreurs
       console.log(error);
     });
 }
