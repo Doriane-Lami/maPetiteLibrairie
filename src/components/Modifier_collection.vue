@@ -12,9 +12,11 @@ const url = "https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
 // -- req AJAX pour récupérer les todos
 //    et les stocker dans le state listeC
 function getLivres() {
+  console.log("coucou1");
   const fetchOptions = { method: "GET" };
   fetch(url, fetchOptions)
     .then((response) => {
+      console.log("coucou2");
       return response.json();
     })
     .then((dataJSON) => {
@@ -25,7 +27,7 @@ function getLivres() {
       //  créer un objet instance de la classe Chose
       //  et l'ajouter dans la liste listeC
       dataJSON.forEach((v) =>
-        listeL.push(new Livre(v.id, v.titre, v.qte, v.prix))
+        listeL.push(new Livre(v.id, v.titre, v.qtestock, v.prix))
       );
     })
     .catch((error) => console.log(error));
@@ -35,11 +37,35 @@ function getLivres() {
 onMounted(() => {
   getLivres();
 });
+
+function handlerAdd(titre, qtestock, prix) {
+  console.log(titre);
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  console.log(myHeaders);
+  // --  le libelle de la nouvelle chose est envoyé au serveur
+  //  via le body de la req AJAX
+  const fetchOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: JSON.stringify({ titre: titre, qtestock: qtestock, prix: prix }),
+  };
+  fetch(url, fetchOptions)
+    .then((response) => {
+      console.log("coucou3");
+      return response.json();
+    })
+    .then((dataJSON) => {
+      console.log(dataJSON);
+      getLivres();
+    })
+    .catch((error) => console.log(error));
+}
 </script>
 
 <template>
   <h3>Liste des livres</h3>
-  <Modif_Form @addC="handlerAdd"></Modif_Form>
+  <Modif_Form @addL="handlerAdd"></Modif_Form>
   <ul>
     <LivreItem v-for="livre of listeL" :key="livre.id" :livre="livre" />
   </ul>

@@ -1,8 +1,10 @@
-<script setup></script>
+<script setup>
+defineProps(["livre"]);
+</script>
 
 <template>
   <li>
-    {{ Livre.pourAfficher() }}
+    {{ livre.pourAfficher() }}
   </li>
 </template>
 
