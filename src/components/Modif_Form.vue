@@ -7,11 +7,11 @@ const emit = defineEmits(["addL"]);
 </script>
 
 <template>
-  <form @submit.prevent="$emit('addL', titre)">
+  <form @submit.prevent="$emit('addL', titre, qtestock, prix)">
     <input type="text" v-model="titre" placeholder="titre de l'ouvrage" />
     <input
       type="number"
-      v-model="qte"
+      v-model="qtestock"
       step="1"
       placeholder="quantité en stock"
     />
