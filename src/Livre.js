@@ -27,7 +27,12 @@ export default class Livre {
   set titre(titre) {
     this._titre = titre;
   }
+
+  incrementerStock() {
+    this._qtestock = this.qtestock + 1;
+  }
+
   pourAfficher() {
-    return `--> ${this._titre} `;
+    return `${this._titre}`;
   }
 }

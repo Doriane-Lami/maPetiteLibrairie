@@ -11,12 +11,12 @@ const url = "https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
 
 // -- req AJAX pour récupérer les todos
 //    et les stocker dans le state listeC
+document.getElementById("livres").addEventListener("click", getLivres);
+
 function getLivres() {
-  console.log("coucou1");
   const fetchOptions = { method: "GET" };
   fetch(url, fetchOptions)
     .then((response) => {
-      console.log("coucou2");
       return response.json();
     })
     .then((dataJSON) => {
@@ -61,13 +61,56 @@ function handlerAdd(titre, qtestock, prix) {
     })
     .catch((error) => console.log(error));
 }
+
+function handlerDelete(id) {
+  console.log(id);
+  const fetchOptions = {
+    method: "DELETE",
+  };
+  // -- l'id de la chose à supprimer doit être
+  //  ajouté à la fin de l'url
+  fetch(url + "/" + id, fetchOptions)
+    .then((response) => {
+      return response.json();
+    })
+    .then((dataJSON) => {
+      console.log(dataJSON);
+      getLivres();
+    })
+    .catch((error) => console.log(error));
+}
+
+function handlerArrivage(id) {
+  console.log(id);
+  const url =
+    "https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
+  let fetchOptions = { method: "PUT" }; //On utilise GET pour collecter des données de l'API
+  fetch(url + "/" + id, fetchOptions)
+    .then((response) => {
+      return response.json(); // données format JSON
+    })
+    .then((dataJSON) => {
+      console.log("test2");
+      console.log(dataJSON);
+      getLivres(); // les livres ne sont dans aucune sous catégorie de l'API
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 </script>
 
 <template>
   <h3>Liste des livres</h3>
   <Modif_Form @addL="handlerAdd"></Modif_Form>
   <ul>
-    <LivreItem v-for="livre of listeL" :key="livre.id" :livre="livre" />
+    <LivreItem
+      v-for="livre of listeL"
+      :key="livre.id"
+      :livre="livre"
+      @deleteL="handlerDelete"
+      @arrivageL="handlerArrivage"
+    />
   </ul>
 </template>
 
