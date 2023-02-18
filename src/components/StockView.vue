@@ -9,7 +9,6 @@
           <th>Id</th>
           <th>Titre</th>
           <th>Quantité en stock</th>
-          <th>Prix</th>
           <th>Arrivage</th>
           <th>Vente</th>
           <!-- Si le tableau des produits est vide -->
