@@ -29,7 +29,7 @@ export default class Livre {
   }
 
   incrementerStock() {
-    this._qtestock = this.qtestock + 1;
+    this._qtestock = this._qtestock + 1;
   }
 
   pourAfficher() {

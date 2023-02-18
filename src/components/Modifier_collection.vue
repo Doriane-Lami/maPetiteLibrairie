@@ -90,7 +90,10 @@ function handlerArrivage(id) {
       return response.json(); // données format JSON
     })
     .then((dataJSON) => {
-      console.log("test2");
+      let lesLivres = dataJSON;
+      for (let l of lesLivres) {
+        l.incrementerStock();
+      }
       console.log(dataJSON);
       getLivres(); // les livres ne sont dans aucune sous catégorie de l'API
     })
@@ -98,18 +101,20 @@ function handlerArrivage(id) {
       console.log(error);
     });
 }
+
+
 </script>
 
 <template>
   <h3>Liste des livres</h3>
   <Modif_Form @addL="handlerAdd"></Modif_Form>
+  <StockView @arrivageL="handlerArrivage"></StockView>
   <ul>
     <LivreItem
       v-for="livre of listeL"
       :key="livre.id"
       :livre="livre"
       @deleteL="handlerDelete"
-      @arrivageL="handlerArrivage"
     />
   </ul>
 </template>

@@ -2,6 +2,8 @@
 import { ref } from "vue";
 // -- donnée réactive pour la saisie du titre
 const titre = ref("");
+const qtestock = ref("");
+const prix = ref("");
 
 const emit = defineEmits(["addL"]);
 </script>

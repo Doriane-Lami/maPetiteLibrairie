@@ -22,7 +22,7 @@
           <td>{{ livre.titre }}</td>
           <td>{{ livre.qtestock }}</td>
           <td>
-            <button @click="$emit('arrivageL', livre.id)">
+            <button @click="handlerFaire(livre)">
               Ajouter un exemplaire
             </button>
           </td>
@@ -39,8 +39,10 @@
 
 <script setup>
 import { reactive, onMounted } from "vue";
+import Livre from "@/Livre";
 defineProps(["livre"]);
 const emit = defineEmits(["arrivageL"]);
+
 // Pour réinitialiser le formuaire
 const livreVide = {
   titre: "",
@@ -68,6 +70,57 @@ function chargeProduits() {
     .catch((error) => {
       console.log(error);
     });
+}
+
+function handlerFaire(livre) {
+  const url =
+      "https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
+  console.log("hello1")
+  console.log(livre);
+
+
+
+  let fetchOptions1 = { method: "GET" }; //On utilise GET pour collecter des données de l'API
+  fetch(url +"/"+livre.id, fetchOptions1)
+      .then((response) => {
+        return response.json();
+      })
+      .then((dataJSON) => {
+        console.log("hello2")
+        let leLivre = dataJSON;
+        console.log(dataJSON);
+        console.log(leLivre);
+        return leLivre;
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+  leLivre.incrementerStock();
+  console.log(leLivre);
+  // -- entête http pour la req AJAX
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  // -- la chose modifiée est envoyé au serveur
+  //  via le body de la req AJAX
+  const fetchOptions = {
+    method: "PUT",
+    headers: myHeaders,
+    body: JSON.stringify(leLivre),
+  };
+  // -- la req AJAX
+  fetch(url +"/"+leLivre.id, fetchOptions)
+      .then((response) => {
+        return response.json();
+      })
+      .then((dataJSON) => {
+        console.log(dataJSON);
+        // actualiser la liste des choses
+        chargeProduits();
+      })
+      .catch((error) => console.log(error));
 }
 
 // A l'affichage du composant, on affiche la liste
