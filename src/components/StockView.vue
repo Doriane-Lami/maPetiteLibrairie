@@ -22,12 +22,12 @@
           <td>{{ livre.titre }}</td>
           <td>{{ livre.qtestock }}</td>
           <td>
-            <button @click="handlerFaire(livre)">
+            <button @click="plusStock(livre)">
               Ajouter un exemplaire
             </button>
           </td>
           <td>
-            <button @click="chargerProduitsVoulus(data.links.first.href)">
+            <button>
               Enlever un exemplaire
             </button>
           </td>
@@ -39,16 +39,9 @@
 
 <script setup>
 import { reactive, onMounted } from "vue";
-import Livre from "@/Livre";
-defineProps(["livre"]);
-const emit = defineEmits(["arrivageL"]);
+import Livre from "../Livre";
+const url ="https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
 
-// Pour réinitialiser le formuaire
-const livreVide = {
-  titre: "",
-  qtestock: "",
-  prix: "",
-};
 
 let data = reactive({
   // La liste des produits affichée sous forme de table
@@ -56,8 +49,6 @@ let data = reactive({
 });
 
 function chargeProduits() {
-  const url =
-    "https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
   let fetchOptions = { method: "GET" }; //On utilise GET pour collecter des données de l'API
   fetch(url, fetchOptions)
     .then((response) => {
@@ -72,35 +63,10 @@ function chargeProduits() {
     });
 }
 
-function handlerFaire(livre) {
-  const url =
-      "https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
-  console.log("hello1")
-  console.log(livre);
-
-
-
-  let fetchOptions1 = { method: "GET" }; //On utilise GET pour collecter des données de l'API
-  fetch(url +"/"+livre.id, fetchOptions1)
-      .then((response) => {
-        return response.json();
-      })
-      .then((dataJSON) => {
-        console.log("hello2")
-        let leLivre = dataJSON;
-        console.log(dataJSON);
-        console.log(leLivre);
-        return leLivre;
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-
+function plusStock(leLivre){
+  console.log(leLivre.qtestock);
   leLivre.incrementerStock();
-  console.log(leLivre);
-  // -- entête http pour la req AJAX
+  console.log(leLivre.qtestock);
   let myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   // -- la chose modifiée est envoyé au serveur
@@ -108,20 +74,26 @@ function handlerFaire(livre) {
   const fetchOptions = {
     method: "PUT",
     headers: myHeaders,
-    body: JSON.stringify(leLivre),
+    body: JSON.stringify({
+      id: leLivre._id,
+      titre: leLivre._titre,
+      qtestock: leLivre._qtestock,
+      prix: leLivre._prix,
+    }),
   };
   // -- la req AJAX
-  fetch(url +"/"+leLivre.id, fetchOptions)
+  fetch(url, fetchOptions)
       .then((response) => {
         return response.json();
       })
       .then((dataJSON) => {
         console.log(dataJSON);
-        // actualiser la liste des choses
+        // actualiser la liste des livres
         chargeProduits();
       })
       .catch((error) => console.log(error));
 }
+
 
 // A l'affichage du composant, on affiche la liste
 onMounted(chargeProduits);

@@ -80,27 +80,6 @@ function handlerDelete(id) {
     .catch((error) => console.log(error));
 }
 
-function handlerArrivage(id) {
-  console.log(id);
-  const url =
-    "https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
-  let fetchOptions = { method: "PUT" }; //On utilise GET pour collecter des données de l'API
-  fetch(url + "/" + id, fetchOptions)
-    .then((response) => {
-      return response.json(); // données format JSON
-    })
-    .then((dataJSON) => {
-      let lesLivres = dataJSON;
-      for (let l of lesLivres) {
-        l.incrementerStock();
-      }
-      console.log(dataJSON);
-      getLivres(); // les livres ne sont dans aucune sous catégorie de l'API
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
 
 
 </script>
@@ -108,7 +87,6 @@ function handlerArrivage(id) {
 <template>
   <h3>Liste des livres</h3>
   <Modif_Form @addL="handlerAdd"></Modif_Form>
-  <StockView @arrivageL="handlerArrivage"></StockView>
   <ul>
     <LivreItem
       v-for="livre of listeL"
