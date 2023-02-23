@@ -1,4 +1,7 @@
-<script setup></script>
+<script setup>
+import ListeLivre from "./ListeLivre.vue";
+import Modifier_collection from "./Modifier_collection.vue";
+</script>
 
 <template>
   <body>

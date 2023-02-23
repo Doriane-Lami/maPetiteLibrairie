@@ -32,11 +32,7 @@ function getLivres() {
     })
     .catch((error) => console.log(error));
 }
-// -- fonction du cycle de vie du composant
-// exécutée 1 seule fois à la création
-onMounted(() => {
-  getLivres();
-});
+
 
 function handlerAdd(titre, qtestock, prix) {
   console.log(titre);
@@ -80,7 +76,9 @@ function handlerDelete(id) {
     .catch((error) => console.log(error));
 }
 
-
+onMounted(() => {
+  getLivres();
+});
 
 </script>
 

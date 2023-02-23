@@ -1,3 +1,67 @@
+<script setup>
+import { reactive, onMounted } from "vue";
+import Livre from "../Livre";
+const url ="https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
+
+
+let data = reactive({
+  // La liste des produits affichée sous forme de table
+  listeLivres: {},
+});
+
+function chargeProduits() {
+  let fetchOptions = { method: "GET" }; //On utilise GET pour collecter des données de l'API
+  fetch(url, fetchOptions)
+      .then((response) => {
+        return response.json(); // données format JSON
+      })
+      .then((dataJSON) => {
+        data.listeLivres = dataJSON; // les livres ne sont dans aucune sous catégorie de l'API
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}
+
+function plusStock(leLivre){
+  console.log(leLivre);
+  leLivre.incrementerStock();
+  console.log(leLivre.qtestock);
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  // -- la chose modifiée est envoyé au serveur
+  //  via le body de la req AJAX
+  const fetchOptions = {
+    method: "PUT",
+    headers: myHeaders,
+    body: JSON.stringify({
+      id: leLivre._id,
+      titre: leLivre._titre,
+      qtestock: leLivre._qtestock,
+      prix: leLivre._prix,
+    }),
+  };
+  // -- la req AJAX
+  fetch(url, fetchOptions)
+      .then((response) => {
+        return response.json();
+      })
+      .then((dataJSON) => {
+        console.log(dataJSON);
+        // actualiser la liste des livres
+        chargeProduits();
+      })
+      .catch((error) => console.log(error));
+}
+
+// A l'affichage du composant, on affiche la liste
+onMounted(chargeProduits);
+
+onMounted(() => {
+  getLivres();
+});
+</script>
+
 <template>
   <main>
     <div>
@@ -37,67 +101,6 @@
   </main>
 </template>
 
-<script setup>
-import { reactive, onMounted } from "vue";
-import Livre from "../Livre";
-const url ="https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
-
-
-let data = reactive({
-  // La liste des produits affichée sous forme de table
-  listeLivres: {},
-});
-
-function chargeProduits() {
-  let fetchOptions = { method: "GET" }; //On utilise GET pour collecter des données de l'API
-  fetch(url, fetchOptions)
-    .then((response) => {
-      return response.json(); // données format JSON
-    })
-    .then((dataJSON) => {
-      console.log("test2");
-      data.listeLivres = dataJSON; // les livres ne sont dans aucune sous catégorie de l'API
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-function plusStock(leLivre){
-  console.log(leLivre.qtestock);
-  leLivre.incrementerStock();
-  console.log(leLivre.qtestock);
-  let myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  // -- la chose modifiée est envoyé au serveur
-  //  via le body de la req AJAX
-  const fetchOptions = {
-    method: "PUT",
-    headers: myHeaders,
-    body: JSON.stringify({
-      id: leLivre._id,
-      titre: leLivre._titre,
-      qtestock: leLivre._qtestock,
-      prix: leLivre._prix,
-    }),
-  };
-  // -- la req AJAX
-  fetch(url, fetchOptions)
-      .then((response) => {
-        return response.json();
-      })
-      .then((dataJSON) => {
-        console.log(dataJSON);
-        // actualiser la liste des livres
-        chargeProduits();
-      })
-      .catch((error) => console.log(error));
-}
-
-
-// A l'affichage du composant, on affiche la liste
-onMounted(chargeProduits);
-</script>
 
 <style scoped>
 td,
