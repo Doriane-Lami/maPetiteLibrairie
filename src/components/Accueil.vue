@@ -28,10 +28,20 @@ import Modifier_collection from "./Modifier_collection.vue";
         </ul>
       </nav>
     </header>
+    <img
+        id="etagere_livres"
+        src="../assets/étagères.png"
+        alt="illustration d'un mur d'étagères remplies de livres"
+    />
   </body>
 </template>
 
 <style>
+
+img {
+  width: 100%;
+  height: auto;
+}
 
 #brand {
   color: rgb(171, 39, 79);

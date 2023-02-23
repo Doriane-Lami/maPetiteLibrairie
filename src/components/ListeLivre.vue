@@ -7,11 +7,6 @@ document.getElementById("livres").addEventListener("click", listeLivres);
 // la fonction récupère les titres des livres et les affiche
 function listeLivres() {
 
-  let champ = "<input type='text' id='title' placeholder='titre du livre recherché'/>";
-  document.getElementById("champ_recherche").innerHTML = champ;
-  let boutton = "<input type='button' id='livreCherche' value='Chercher les livres'/>";
-  document.getElementById("boutton_recherche").innerHTML = boutton;
-
   // url de l'API qui permet de récupérer les livres
 
   let fetchOptions = {method: "GET"}; //On utilise GET pour collecter des données de l'API
@@ -34,6 +29,7 @@ function listeLivres() {
         console.log(error);
       });
 }
+
 
 document.getElementById("livreCherche").addEventListener("click", rechercherLivre);
 
@@ -69,7 +65,8 @@ function rechercherLivre(){
     <div id="boutton_recherche"></div>
   </div>
   <ul id="les_livres"></ul>
-
+  <input type='text' id='title' placeholder='titre du livre recherché'/>
+  <input type='button' id='livreCherche' value='Chercher les livres' />
   <img
     id="etagere_livres"
     src="../assets/étagères.png"
@@ -83,7 +80,6 @@ function rechercherLivre(){
 }
 
 img {
-  bottom: Opx;
   width: 100%;
   height: auto;
 }

@@ -7,8 +7,9 @@ import StockView from "./components/StockView.vue";
 
 <template>
   <Accueil />
-  <ListeLivre />
 
+  <Modifier_collection/>
+  <stock-view></stock-view>
 </template>
 
 <style></style>
