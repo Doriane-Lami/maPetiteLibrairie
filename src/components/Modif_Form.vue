@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import Livre from "../Livre";
+
 // -- donnée réactive pour la saisie du titre
 const titre = ref("");
 const qtestock = ref("");
