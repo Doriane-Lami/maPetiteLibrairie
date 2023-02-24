@@ -1,13 +1,17 @@
 <script setup>
 import { reactive, onMounted } from "vue";
 import Livre from "../Livre";
-const url ="https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
 
+
+defineProps(["leLivre"]);
+const emit = defineEmits(["deleteL"]);
 
 let data = reactive({
   // La liste des produits affichée sous forme de table
   listeLivres: {},
 });
+
+const url ="https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
 
 function chargeProduits() {
   let fetchOptions = { method: "GET" }; //On utilise GET pour collecter des données de l'API
@@ -27,6 +31,42 @@ function plusStock(leLivre){
   console.log(leLivre);
   leLivre.incrementerStock();
   console.log(leLivre.qtestock);
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  // -- la chose modifiée est envoyé au serveur
+  //  via le body de la req AJAX
+  const fetchOptions = {
+    method: "PUT",
+    headers: myHeaders,
+    body: JSON.stringify({
+      id: leLivre._id,
+      titre: leLivre._titre,
+      qtestock: leLivre._qtestock,
+      prix: leLivre._prix,
+    }),
+  };
+  // -- la req AJAX
+  fetch(url, fetchOptions)
+      .then((response) => {
+        return response.json();
+      })
+      .then((dataJSON) => {
+        console.log(dataJSON);
+        // actualiser la liste des livres
+        chargeProduits();
+      })
+      .catch((error) => console.log(error));
+}
+
+function moinsStock(leLivre){
+  console.log(leLivre);
+  leLivre.decrementerStock();
+  console.log(leLivre.qtestock);
+
+  if(leLivre.qtestock == 0){
+    emit("deleteL", leLivre.id);
+  }
+
   let myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   // -- la chose modifiée est envoyé au serveur
@@ -91,7 +131,7 @@ onMounted(() => {
             </button>
           </td>
           <td>
-            <button>
+            <button @click="moinsStock(livre)">
               Enlever un exemplaire
             </button>
           </td>

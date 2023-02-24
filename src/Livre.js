@@ -32,7 +32,12 @@ export default class Livre {
     this._qtestock = this._qtestock + 1;
   }
 
+  decrementerStock() {
+    this._qtestock = this._qtestock - 1;
+  }
+
   pourAfficher() {
     return `${this._titre}`;
   }
+
 }

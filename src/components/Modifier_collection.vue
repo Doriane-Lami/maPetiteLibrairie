@@ -85,6 +85,7 @@ onMounted(() => {
 <template>
   <h3>Liste des livres</h3>
   <Modif_Form @addL="handlerAdd"></Modif_Form>
+  <StockView @deleteL="handlerDelete"></StockView>
   <ul>
     <LivreItem
       v-for="livre of listeL"

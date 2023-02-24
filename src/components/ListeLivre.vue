@@ -1,5 +1,5 @@
 <script setup>
-
+import Livre from "../Livre";
 const url = "https://webmmi.iut-tlse3.fr/~pecatte/librairies/public/22/livres";
 
 document.getElementById("livres").addEventListener("click", listeLivres);

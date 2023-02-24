@@ -1,6 +1,7 @@
 <script setup>
 defineProps(["livre"]);
 const emit = defineEmits(["deleteL"]);
+import Livre from "../Livre";
 </script>
 
 <template>
